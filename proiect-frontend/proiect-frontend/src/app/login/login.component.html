@@ -1,0 +1,44 @@
+<head>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div *ngIf="!invalid" class="container">
+  <h1>Login</h1>
+  <form #f="ngForm">
+    <div class="txt_field">
+      <input type="text" name="username" [(ngModel)] = "user.username" required><br>
+      <span></span>
+      <label>Username</label>
+    </div>
+    <div class="txt_field">
+      <input type="password" name="password" [(ngModel)] = "user.password" required><br>
+      <span></span>
+      <label>Password</label>
+    </div>
+    <input type="button" class="btn btn-primary" (click)="login(f)" value="Login">
+
+  </form>
+</div>
+
+<div *ngIf="invalid" class="container">
+  <h1>Login</h1>
+  <form #f="ngForm">
+    <div class="txt_field">
+      <input type="text" name="username" [(ngModel)] = "user.username" required><br>
+      <span></span>
+      <label>Username</label>
+    </div>
+    <div class="txt_field">
+      <input type="password" name="password" [(ngModel)] = "user.password" required><br>
+      <span></span>
+      <label>Password</label>
+    </div>
+    <p style="color: red">Invalid username/password!</p>
+    <br><br>
+    <input type="button" class="btn btn-primary" (click)="login(f)" value="Login">
+
+  </form>
+</div>
+
+</body>

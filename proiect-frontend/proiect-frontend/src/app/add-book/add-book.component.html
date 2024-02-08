@@ -1,0 +1,47 @@
+<html>
+<body>
+<div class="bg">
+
+<input type="text" id="title" name="title" [(ngModel)]="title"><br><br>
+<button class ="btn btn-warning"(click)="getBookByTitle()">Get book by title</button>
+<table class="table table-bordered">
+  <tbody>
+  <tr *ngFor="let b of this.books">
+    <td>{{b.title}}</td>
+    <td>{{b.author}}</td>
+    <td>{{b.numberOfProducts}}</td>
+  </tr>
+  </tbody>
+</table>
+<br><br><br>
+<button class ="btn btn-warning"(click)="borrowBook()">Borrow book</button>
+<br><br><br>
+<button class ="btn btn-warning"(click)="getReviews()">Get reviews</button>
+<br><br><br>
+<table class="table table-bordered">
+  <tbody>
+  <tr *ngFor="let r of this.reviews">
+    <td>{{r.textOfReview}}</td>
+  </tr>
+  </tbody>
+</table>
+<br><br><br>
+<button class ="btn btn-warning"(click)="getBooks()">Get all books</button>
+<table class="table table-bordered">
+  <tbody>
+<tr *ngFor="let b of this.bookList">
+  <td>{{b.title}}</td>
+  <td>{{b.author}}</td>
+  <td>{{b.numberOfProducts}}</td>
+</tr>
+  </tbody>
+</table>
+
+<button class ="btn btn-warning"(click)="logout()">Logout</button>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
+</body>
+
+
+</html>
+

@@ -1,0 +1,88 @@
+version: "3"
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+        - rabbitmq_go_net
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      
+  proiect-frontend:
+    build:
+      context: /proiect-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    depends_on:
+        rabbitmq:
+            condition: service_healthy  
+    restart: always
+
+  gateway:
+    build:
+      context: /gateway/gateway
+      dockerfile: Dockerfile
+    ports:
+        - "8099:8099"
+    links:
+       - book2
+    depends_on:
+        rabbitmq:
+            condition: service_healthy
+    restart: always
+
+  book2:
+    build:
+      context: /book2
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    environment:
+      RABBITMQ_URI: rabbitmq 
+    depends_on:
+        rabbitmq:
+            condition: service_healthy
+    restart: always
+    networks:
+        - rabbitmq_go_net
+
+  review:
+    build:
+      context: /review/review
+      dockerfile: Dockerfile
+    ports:
+      - "8092:8092"
+    environment:
+      RABBITMQ_URI: rabbitmq 
+    depends_on:
+        rabbitmq:
+            condition: service_healthy
+    restart: always
+    networks:
+        - rabbitmq_go_net
+
+  user:
+    build:
+      context: /user/user
+      dockerfile: Dockerfile
+    ports:
+      - "8093:8093"
+    depends_on:
+        rabbitmq:
+            condition: service_healthy
+    restart: always
+
+networks:
+  rabbitmq_go_net:
+    driver: bridge
+ 
